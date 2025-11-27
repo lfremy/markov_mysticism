@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oracle de Delphes</title>
+    <style>
+      body {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #f0f0f0;
+        font-family: "Georgia", serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        text-align: center;
+        max-width: 600px;
+        width: 100%;
+      }
+
+      .temple {
+        border: 3px solid #d4af37;
+        padding: 40px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+
+      h1 {
+        color: #d4af37;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .subtitle {
+        color: #b8956a;
+        font-size: 1.2em;
+        margin-bottom: 30px;
+      }
+
+      input {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.1em;
+        border: 2px solid #d4af37;
+        background: rgba(255, 255, 255, 0.1);
+        color: #f0f0f0;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-family: "Georgia", serif;
+      }
+
+      input::placeholder {
+        color: #b8956a;
+      }
+
+      button {
+        background: #d4af37;
+        color: #1a1a2e;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.2em;
+        cursor: pointer;
+        border-radius: 5px;
+        font-family: "Georgia", serif;
+        font-weight: bold;
+        transition: all 0.3s;
+      }
+
+      button:hover {
+        background: #f0d06f;
+        transform: scale(1.05);
+      }
+
+      .prophecies {
+        margin-top: 30px;
+        font-size: 1.1em;
+        line-height: 1.8;
+      }
+
+      .prophecy {
+        color: #f0d06f;
+        margin: 15px 0;
+        font-style: italic;
+      }
+
+      .loading {
+        display: none;
+        color: #d4af37;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="temple">
+        <h1>🜏 ORACLE DE DELPHES 🜏</h1>
+        <p class="subtitle">Sanctuaire d'Apollon</p>
+
+        <input
+          type="text"
+          id="question"
+          placeholder="Ô mortel, quelle question poses-tu à la Pythie ?"
+        />
+        <button onclick="askOracle()">Consulter l'Oracle</button>
+
+        <div class="loading" id="loading">
+          [Des vapeurs s'élèvent... La Pythie entre en transe...]
+        </div>
+
+        <div class="prophecies" id="prophecies"></div>
+      </div>
+    </div>
+
+    <script>
+      async function askOracle() {
+        const question = document.getElementById("question").value;
+        const loading = document.getElementById("loading");
+        const propheciesDiv = document.getElementById("prophecies");
+
+        if (!question) {
+          alert("Pose une question à la Pythie !");
+          return;
+        }
+
+        loading.style.display = "block";
+        propheciesDiv.innerHTML = "";
+
+        const response = await fetch("/prophecy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: question }),
+        });
+
+        const data = await response.json();
+
+        setTimeout(() => {
+          loading.style.display = "none";
+          propheciesDiv.innerHTML =
+            '<p style="color: #d4af37;">༺ La Pythie parle ༻</p>';
+          propheciesDiv.innerHTML += `<p class="prophecy">« ${data.prophecy} »</p>`;
+
+          const audio = new Audio(
+            "/static/prophecy.mp3?t=" + new Date().getTime()
+          );
+          audio.play();
+        }, 2000);
+      }
+      document
+        .getElementById("question")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            askOracle();
+          }
+        });
+    </script>
+  </body>
+</html>
