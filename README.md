@@ -6,6 +6,12 @@ Interface web pour consulter la Pythie et recevoir des prophéties générées p
 ```bash
 pip install flask gtts markovify
 ```
+**Linux (Ubuntu/Debian) :**
+```bash
+sudo apt-get update
+sudo apt-get install sox libsox-fmt-all
+```
+
 
 ## Lancement
 ```bash
@@ -19,13 +25,16 @@ Ouvrir : `http://localhost:5000`
 1. L'utilisateur pose une question
 2. Markovify génère une prophétie depuis le corpus (chaînes de Markov)
 3. gTTS convertit le texte en audio français
-4. La prophétie s'affiche et se prononce automatiquement
+4. sox fait les effets vocaux
+5.. La prophétie s'affiche et se prononce automatiquement
 
 ## Technologies
 
 - **Flask** : serveur web
 - **Markovify** : génération de texte par chaînes de Markov
 - **gTTS** : synthèse vocale
+- **sox** : effet vocaux
+
 
 ## Chaînes de Markov vs IA
 
