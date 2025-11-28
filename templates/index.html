@@ -5,112 +5,296 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Oracle de Delphes</title>
     <style>
-      body {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        color: #f0f0f0;
-        font-family: "Georgia", serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
+      * {
         margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(to bottom, #0a0e27 0%, #1a1f3a 100%);
+        color: #e8e8e8;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+        min-height: 100vh;
         padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated background particles */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                          radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+        animation: pulse 8s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
       }
 
       .container {
-        text-align: center;
-        max-width: 600px;
-        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+        padding-top: 60px;
       }
 
-      .temple {
-        border: 3px solid #d4af37;
-        padding: 40px;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 10px;
+      .header {
+        text-align: center;
+        margin-bottom: 60px;
+        animation: fadeInDown 0.8s ease-out;
+      }
+
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.4));
       }
 
       h1 {
-        color: #d4af37;
-        font-size: 2.5em;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 300;
+        letter-spacing: 0.1em;
+        background: linear-gradient(135deg, #d4af37 0%, #f4e6c3 50%, #d4af37 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 12px;
+        text-transform: uppercase;
       }
 
       .subtitle {
-        color: #b8956a;
-        font-size: 1.2em;
-        margin-bottom: 30px;
+        font-size: 0.95rem;
+        color: #a0a0a0;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        animation: fadeInUp 0.8s ease-out 0.2s both;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .input-wrapper {
+        position: relative;
+        margin-bottom: 24px;
       }
 
       input {
         width: 100%;
-        padding: 15px;
-        font-size: 1.1em;
-        border: 2px solid #d4af37;
-        background: rgba(255, 255, 255, 0.1);
-        color: #f0f0f0;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        font-family: "Georgia", serif;
+        padding: 18px 24px;
+        font-size: 1rem;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        color: #e8e8e8;
+        border-radius: 16px;
+        font-family: inherit;
+        transition: all 0.3s ease;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: rgba(212, 175, 55, 0.5);
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
       }
 
       input::placeholder {
-        color: #b8956a;
+        color: #6a6a6a;
       }
 
       button {
-        background: #d4af37;
-        color: #1a1a2e;
+        width: 100%;
+        background: linear-gradient(135deg, #d4af37 0%, #f0d06f 100%);
+        color: #0a0e27;
         border: none;
-        padding: 15px 40px;
-        font-size: 1.2em;
+        padding: 18px 32px;
+        font-size: 1rem;
+        font-weight: 600;
         cursor: pointer;
-        border-radius: 5px;
-        font-family: "Georgia", serif;
-        font-weight: bold;
-        transition: all 0.3s;
+        border-radius: 16px;
+        font-family: inherit;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: left 0.5s ease;
+      }
+
+      button:hover::before {
+        left: 100%;
       }
 
       button:hover {
-        background: #f0d06f;
-        transform: scale(1.05);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5);
       }
 
-      .prophecies {
-        margin-top: 30px;
-        font-size: 1.1em;
-        line-height: 1.8;
-      }
-
-      .prophecy {
-        color: #f0d06f;
-        margin: 15px 0;
-        font-style: italic;
+      button:active {
+        transform: translateY(0);
       }
 
       .loading {
         display: none;
+        text-align: center;
+        margin-top: 40px;
         color: #d4af37;
-        margin-top: 20px;
+        font-size: 0.95rem;
+        letter-spacing: 0.05em;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .loading::after {
+        content: "...";
+        animation: dots 1.5s infinite;
+      }
+
+      @keyframes dots {
+        0%, 20% { content: "."; }
+        40% { content: ".."; }
+        60%, 100% { content: "..."; }
+      }
+
+      .prophecies {
+        margin-top: 40px;
+        animation: fadeIn 0.8s ease;
+      }
+
+      .prophecy-header {
+        text-align: center;
+        color: #d4af37;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin-bottom: 24px;
+        font-weight: 500;
+      }
+
+      .prophecy {
+        background: rgba(212, 175, 55, 0.05);
+        border-left: 3px solid #d4af37;
+        padding: 24px 28px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #f4e6c3;
+        font-style: italic;
+        position: relative;
+        animation: slideIn 0.6s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .prophecy::before {
+        content: "„";
+        position: absolute;
+        left: 8px;
+        top: 10px;
+        font-size: 3rem;
+        color: rgba(212, 175, 55, 0.3);
+        font-family: Georgia, serif;
+      }
+
+      @media (max-width: 768px) {
+        .card {
+          padding: 32px 24px;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        .prophecy {
+          font-size: 1rem;
+          padding: 20px 24px;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="temple">
-        <h1>🜏 ORACLE DE DELPHES 🜏</h1>
+      <div class="header">
+        <div class="icon">🜏</div>
+        <h1>Oracle de Delphes</h1>
         <p class="subtitle">Sanctuaire d'Apollon</p>
+      </div>
 
-        <input
-          type="text"
-          id="question"
-          placeholder="Ô mortel, quelle question poses-tu à la Pythie ?"
-        />
+      <div class="card">
+        <div class="input-wrapper">
+          <input
+            type="text"
+            id="question"
+            placeholder="Pose ta question à l'Oracle..."
+            autocomplete="off"
+          />
+        </div>
         <button onclick="askOracle()">Consulter l'Oracle</button>
 
         <div class="loading" id="loading">
-          [Des vapeurs s'élèvent... La Pythie entre en transe...]
+          Des vapeurs s'élèvent
         </div>
 
         <div class="prophecies" id="prophecies"></div>
@@ -123,7 +307,7 @@
         const loading = document.getElementById("loading");
         const propheciesDiv = document.getElementById("prophecies");
 
-        if (!question) {
+        if (!question.trim()) {
           alert("Pose une question à la Pythie !");
           return;
         }
@@ -131,26 +315,32 @@
         loading.style.display = "block";
         propheciesDiv.innerHTML = "";
 
-        const response = await fetch("/prophecy", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question: question }),
-        });
+        try {
+          const response = await fetch("/prophecy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: question }),
+          });
 
-        const data = await response.json();
+          const data = await response.json();
 
-        setTimeout(() => {
+          setTimeout(() => {
+            loading.style.display = "none";
+            propheciesDiv.innerHTML =
+              '<p class="prophecy-header">⟡ La Pythie Parle ⟡</p>' +
+              `<div class="prophecy">${data.prophecy}</div>`;
+
+            const audio = new Audio(
+              "/static/prophecy.mp3?t=" + new Date().getTime()
+            );
+            audio.play().catch(() => {}); // Ignore audio errors
+          }, 2000);
+        } catch (error) {
           loading.style.display = "none";
-          propheciesDiv.innerHTML =
-            '<p style="color: #d4af37;">༺ La Pythie parle ༻</p>';
-          propheciesDiv.innerHTML += `<p class="prophecy">« ${data.prophecy} »</p>`;
-
-          const audio = new Audio(
-            "/static/prophecy.mp3?t=" + new Date().getTime()
-          );
-          audio.play();
-        }, 2000);
+          alert("L'Oracle est temporairement indisponible.");
+        }
       }
+
       document
         .getElementById("question")
         .addEventListener("keypress", function (e) {
